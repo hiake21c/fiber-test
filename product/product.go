@@ -9,7 +9,7 @@ import (
 
 type Product struct {
 	gorm.Model
-	Code  string
+	Code  string `gorm:"unique"`
 	Price uint64
 }
 
