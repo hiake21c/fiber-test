@@ -33,7 +33,7 @@ func setupRoutes(app *fiber.App) {
 	app.Get("/api/v1/product/:id", product.GetProduct)
 	app.Post("/api/v1/product", product.SaveProduct)
 	app.Delete("/api/v1/product/:id", product.DeleteProduct)
-	app.Put("/api/v1/product/:id", product.SaveProduct)
+	app.Put("/api/v1/product/:id", product.UpdateProduct)
 }
 
 func main() {

@@ -1,11 +1,21 @@
 GET http://localhost:3000/api/v1/product
 
 ###
-GET http://localhost:3000/api/v1/product/1
+GET http://localhost:3000/api/v1/product/2
 
 ###
 POST http://localhost:3000/api/v1/product
 
-
 ###
 DELETE http://localhost:3000/api/v1/product/4
+
+###
+PUT http://localhost:3000/api/v1/product/2
+Content-Type: application/json
+
+{
+ "price" : 100
+}
+
+
+

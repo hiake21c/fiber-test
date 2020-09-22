@@ -3,14 +3,14 @@ package product
 import (
 	"fiber-test/database"
 	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/utils"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Product struct {
 	gorm.Model
 	Code  string
-	Price uint
+	Price uint64
 }
 
 func GetAllProduct(c *fiber.Ctx) error {
@@ -25,18 +25,42 @@ func GetAllProduct(c *fiber.Ctx) error {
 func GetProduct(c *fiber.Ctx) error {
 
 	id := c.Params("id")
+
 	db := database.Db
+
 	var product Product
 	db.Find(&product, id)
+
 	return c.JSON(product)
 }
 
 func SaveProduct(c *fiber.Ctx) error {
 	db := database.Db
+
+	uuid := uuid.New()
+
 	var product Product
-	product.Code = "CODE" + utils.UUID()
+	product.Code = uuid.String()
 	product.Price = 10
-	db.Create(&product)
+
+	db.Save(&product)
+
+	return c.JSON(&product)
+}
+
+func UpdateProduct(c *fiber.Ctx) error {
+	var param = Product{}
+	c.BodyParser(&param)
+
+	id := c.Params("id")
+
+	db := database.Db
+	var product Product
+	db.Find(&product, id)
+
+	//product.Price, _ = strconv.ParseUint(price, 10 , 32)
+	product.Price = param.Price
+	db.Save(&product)
 	return c.JSON(&product)
 }
 
