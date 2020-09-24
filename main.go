@@ -27,21 +27,25 @@ func initDatabase() {
 	fmt.Println("Database Migrated")
 }
 
-func setupRoutes(app *fiber.App) {
-	app.Get("/", homeHandler)
-	app.Get("/api/v1/product", product.GetAllProduct)
-	app.Get("/api/v1/product/:id", product.GetProduct)
-	app.Post("/api/v1/product", product.SaveProduct)
-	app.Delete("/api/v1/product/:id", product.DeleteProduct)
-	app.Put("/api/v1/product/:id", product.UpdateProduct)
+func setupRoutes(router *fiber.App) {
+
+	v1 := router.Group("/api/v1")
+	{
+		v1.Get("/product", product.GetAllProduct)
+		v1.Get("/product/:id", product.GetProduct)
+		v1.Post("/product", product.SaveProduct)
+		v1.Delete("/product/:id", product.DeleteProduct)
+		v1.Put("/product/:id", product.UpdateProduct)
+	}
+
+	router.Get("/", homeHandler)
 }
 
 func main() {
 
-	app := fiber.New()
+	router := fiber.New()
 	initDatabase()
-
-	setupRoutes(app)
-	app.Listen(":3000")
+	setupRoutes(router)
+	router.Listen(":3000")
 
 }
